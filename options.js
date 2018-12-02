@@ -1,17 +1,47 @@
-let page = document.getElementById('buttonDiv');
-const kButtonColors = ['#3aa757', '#e8453c', '#f9bb2d', '#4688f1', '#ffffff'];
-function constructOptions(kButtonColors) {
-  for (let item of kButtonColors) {
-    let button = document.createElement('button');
-    button.style.backgroundColor = item;
-    button.addEventListener('click', function() {
-      chrome.storage.sync.set({color: item}, function() {
-        console.log('color is ' + item);
-      })
-    });
-    page.appendChild(button)
-  }
+let table = document.getElementById('targetSetting');
+function appendSettingRow(host, user, repository, index, insertPos) {
+  let row = table.insertRow(insertPos);
+  let hostCell = row.insertCell(-1);
+  let userCell = row.insertCell(-1);
+  let repositoryCell = row.insertCell(-1);
+  let deleteCell = row.insertCell(-1);
+
+  let rowId = 'targetItem' + index;
+  let deleteButtonId = 'deleteButton' + index;
+
+  row.id = rowId;
+  hostCell.innerHTML = '<input type="text" name="name" size="30" maxlength="20" value="' + host + '">';
+  userCell.innerHTML = '<input type="text" name="name" size="30" maxlength="20" value="' + user + '">';
+  repositoryCell.innerHTML = '<input type="text" name="name" size="30" maxlength="20" value="' + repository + '">';
+  deleteCell.innerHTML = '<button id="' + deleteButtonId + '">delete</button>';
+
+  let deleteButton = document.getElementById(deleteButtonId);
+  deleteButton.addEventListener('click', function() {
+    table.deleteRow(row.rowIndex);
+  });
 }
 
-chrome.storage.sync.set({checkTargets: [{host: 'github.com', user: 'example-user', repository: 'example-repository'}]});
-constructOptions(kButtonColors);
+function appendFinalRow() {
+  let row = table.insertRow(-1);
+  let cell = row.insertCell(-1);
+  cell.colSpan = 4;
+
+  let addButtonId = "addRow";
+  cell.innerHTML = '<button id="' + addButtonId + '">add</button>';
+  let addButton = document.getElementById(addButtonId);
+  addButton.addEventListener('click', function() {
+    let rows = table.rows;
+    let lastRow = rows[rows.length - 2];
+    let nextRowIndex = Number(lastRow.id.slice(-1)) + 1;
+    appendSettingRow('', '', '', nextRowIndex, rows.length - 1);
+  });
+}
+
+chrome.storage.sync.get(['checkTargets'], function(result) {
+  result.checkTargets.forEach(function(target, index) {
+    appendSettingRow(target.host, target.user, target.repository, index, -1);
+  });
+  appendFinalRow();
+});
+
+chrome.storage.sync.set({checkTargets: [{host: 'github.com', user: 'example-user', repository: 'example-repository'},{host: 'github.com', user: 'example-user', repository: 'example-repository'},{host: 'github.com', user: 'example-user', repository: 'example-repository'},{host: 'github.com', user: 'example-user', repository: 'example-repository'}]});
