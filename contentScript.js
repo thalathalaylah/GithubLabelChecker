@@ -15,10 +15,12 @@ function isTarget(url, targets) {
   return false;
 }
 
-targets = [{host: 'github.com', user: 'example-user', repository: 'example-repository'}];
-if (isTarget(document.URL, targets)) {
-  let label = document.querySelector('[aria-label="Labels"]');
-  if (label != null && label.innerText != null && label.innerText === 'None yet\n') {
-    alert('Labels is empty!!!!!');
+chrome.storage.sync.get(['checkTargets'], function(result) {
+  console.log(result);
+  if (isTarget(document.URL, result.checkTargets)) {
+    let label = document.querySelector('[aria-label="Labels"]');
+    if (label != null && label.innerText != null && label.innerText === 'None yet\n') {
+      alert('Labels is empty!!!!!');
+    }
   }
-}
+});

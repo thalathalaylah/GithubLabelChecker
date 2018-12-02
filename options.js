@@ -13,4 +13,5 @@ function constructOptions(kButtonColors) {
   }
 }
 
+chrome.storage.sync.set({checkTargets: [{host: 'github.com', user: 'example-user', repository: 'example-repository'}]});
 constructOptions(kButtonColors);
