@@ -37,6 +37,20 @@ function appendFinalRow() {
   });
 }
 
+let saveButton = document.getElementById('saveButton');
+saveButton.addEventListener('click', function() {
+  let settingRows = Array.from(table.rows).slice(1, -1);
+  let settings = settingRows.map(function(setting) {
+    let cells = setting.cells;
+    return {
+      host: cells[0].children[0].value,
+      user: cells[1].children[0].value,
+      repository: cells[2].children[0].value
+    };
+  });
+  console.log(settings);
+});
+
 chrome.storage.sync.get(['checkTargets'], function(result) {
   result.checkTargets.forEach(function(target, index) {
     appendSettingRow(target.host, target.user, target.repository, index, -1);
