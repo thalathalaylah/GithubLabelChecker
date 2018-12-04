@@ -48,6 +48,13 @@ saveButton.addEventListener('click', function() {
       repository: cells[2].children[0].value
     };
   });
+
+  // 不正な値が入っていないかチェック
+  let regex = new RegExp(/^[a-zA-Z\.-_]+$/);
+  let invalidSettings = settings.filter(function(setting) {
+    return !(regex.test(setting.host) && regex.test(settings.user) && regex.test(settings.repository));
+  });
+  console.log(invalidSettings);
   console.log(settings);
 });
 
