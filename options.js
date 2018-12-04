@@ -50,12 +50,18 @@ saveButton.addEventListener('click', function() {
   });
 
   // 不正な値が入っていないかチェック
-  let regex = new RegExp(/^[a-zA-Z\.-_]+$/);
+  let regex = new RegExp(/^[a-zA-Z\.\-_]+$/);
   let invalidSettings = settings.filter(function(setting) {
-    return !(regex.test(setting.host) && regex.test(settings.user) && regex.test(settings.repository));
+    return !(regex.test(setting.host) && regex.test(setting.user) && regex.test(setting.repository));
   });
-  console.log(invalidSettings);
-  console.log(settings);
+  if (invalidSettings.length !== 0){
+    console.log(invalidSettings);
+    alert('Settings includes invalid parameter.');
+  } else {
+    console.log(settings);
+    chrome.storage.sync.set({checkTargets: settings});
+    alert('Saved.');
+  }
 });
 
 chrome.storage.sync.get(['checkTargets'], function(result) {
@@ -64,5 +70,3 @@ chrome.storage.sync.get(['checkTargets'], function(result) {
   });
   appendFinalRow();
 });
-
-chrome.storage.sync.set({checkTargets: [{host: 'github.com', user: 'example-user', repository: 'example-repository'},{host: 'github.com', user: 'example-user', repository: 'example-repository'},{host: 'github.com', user: 'example-user', repository: 'example-repository'},{host: 'github.com', user: 'example-user', repository: 'example-repository'}]});
