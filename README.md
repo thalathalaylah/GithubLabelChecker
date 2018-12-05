@@ -1,0 +1,2 @@
+# GithubLabelChecker
+プルリクのラベルが空だと警告が出る
