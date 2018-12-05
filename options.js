@@ -10,9 +10,9 @@ function appendSettingRow(host, user, repository, index, insertPos) {
   let deleteButtonId = 'deleteButton' + index;
 
   row.id = rowId;
-  hostCell.innerHTML = '<input type="text" name="name" size="30" maxlength="20" value="' + host + '">';
-  userCell.innerHTML = '<input type="text" name="name" size="30" maxlength="20" value="' + user + '">';
-  repositoryCell.innerHTML = '<input type="text" name="name" size="30" maxlength="20" value="' + repository + '">';
+  hostCell.innerHTML = '<input type="text" name="name" size="30" maxlength="100" value="' + host + '">';
+  userCell.innerHTML = '<input type="text" name="name" size="30" maxlength="100" value="' + user + '">';
+  repositoryCell.innerHTML = '<input type="text" name="name" size="30" maxlength="100" value="' + repository + '">';
   deleteCell.innerHTML = '<button id="' + deleteButtonId + '">delete</button>';
 
   let deleteButton = document.getElementById(deleteButtonId);
