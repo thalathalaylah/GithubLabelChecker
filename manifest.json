@@ -1,6 +1,6 @@
 {
   "name": "Github label checker",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "notice when labels is empty on pull request",
   "permissions": ["activeTab", "declarativeContent", "storage"],
   "options_page": "options.html",
