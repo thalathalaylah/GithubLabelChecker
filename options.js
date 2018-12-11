@@ -68,5 +68,5 @@ chrome.storage.sync.get(['checkTargets'], function(result) {
   result.checkTargets.forEach(function(target, index) {
     appendSettingRow(target.host, target.user, target.repository, index, -1);
   });
-  appendFinalRow();
 });
+appendFinalRow();
